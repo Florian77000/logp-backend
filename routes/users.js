@@ -1,9 +1,13 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+require("../models/connection");
+const User = require("../models/users");
+
+router.get("/", (req, res) => {
+  User.find().then((data) => {
+    res.json({ users: data });
+  });
 });
 
 module.exports = router;

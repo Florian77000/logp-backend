@@ -11,6 +11,8 @@ var app = express();
 const cors = require("cors");
 app.use(cors());
 
+require("./models/connection");
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

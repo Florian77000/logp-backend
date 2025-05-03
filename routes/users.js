@@ -17,6 +17,7 @@ router.get("/", (req, res) => {
   });
 });
 
+//routes users/sisgup pour ajouter un nouvel utilisateur
 router.post("/signUp", (req, res) => {
   if (!checkBody(req.body, ["username", "password"])) {
     res.json({ result: false, error: "Missing or empty field" });
@@ -41,4 +42,20 @@ router.post("/signUp", (req, res) => {
     }
   });
 });
+
+//routes users/signin pour identifier un utilisateur
+router.post("/signIn", (req, res) => {
+  if (!checkBody(req.body, ["username", "password"])) {
+    res.json({ result: false, error: "missing or empty field" });
+  }
+
+  User.findOne({ username: req.body.username }).then((data) => {
+    if (data && bcrypt.compareSync(req.body.password, data.password)) {
+      res.json({ result: true, token: data.token });
+    } else {
+      res.json({ result: false, error: "User not found or wrong field(s)" });
+    }
+  });
+});
+
 module.exports = router;
